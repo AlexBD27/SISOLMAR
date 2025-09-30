@@ -1,0 +1,191 @@
+[Tue Sep 30 17:31:33 2025] PHP 8.2.12 Development Server (http://127.0.0.1:8000) started
+[Tue Sep 30 17:31:33 2025] 127.0.0.1:51654 Accepted
+[Tue Sep 30 17:31:33 2025] 127.0.0.1:51655 Accepted
+[Tue Sep 30 17:31:34 2025] 127.0.0.1:51654 Closing
+[Tue Sep 30 17:31:36 2025] 127.0.0.1:51655 Closing
+[Tue Sep 30 17:31:36 2025] 127.0.0.1:51663 Accepted
+[Tue Sep 30 17:31:36 2025] 127.0.0.1:51664 Accepted
+[Tue Sep 30 17:31:36 2025] 127.0.0.1:51663 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:31:36 2025] 127.0.0.1:51665 Accepted
+[Tue Sep 30 17:31:37 2025] 127.0.0.1:51664 Closing
+[Tue Sep 30 17:31:37 2025] 127.0.0.1:51666 Accepted
+[Tue Sep 30 17:31:38 2025] 127.0.0.1:51665 Closing
+[Tue Sep 30 17:31:38 2025] 127.0.0.1:51667 Accepted
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51666 Closing
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51663 Closing
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51669 Accepted
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51667 Closing
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51670 Accepted
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51669 [200]: GET /images/user.png
+[Tue Sep 30 17:31:39 2025] 127.0.0.1:51672 Accepted
+[Tue Sep 30 17:31:40 2025] 127.0.0.1:51670 Closing
+[Tue Sep 30 17:31:41 2025] 127.0.0.1:51672 Closing
+[Tue Sep 30 17:31:41 2025] 127.0.0.1:51669 Closing
+[Tue Sep 30 17:31:41 2025] 127.0.0.1:51674 Accepted
+[Tue Sep 30 17:31:41 2025] 127.0.0.1:51674 [200]: GET /images/icono.png
+[Tue Sep 30 17:31:41 2025] 127.0.0.1:51674 Closing
+[Tue Sep 30 17:31:54 2025] 127.0.0.1:51682 Accepted
+[Tue Sep 30 17:31:55 2025] 127.0.0.1:51682 Closing
+[Tue Sep 30 17:31:58 2025] 127.0.0.1:51686 Accepted
+[Tue Sep 30 17:31:58 2025] 127.0.0.1:51687 Accepted
+[Tue Sep 30 17:31:59 2025] 127.0.0.1:51686 Closing
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51687 Closing
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51691 Accepted
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51697 Accepted
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51691 Closing
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51698 Accepted
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51697 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:32:00 2025] 127.0.0.1:51699 Accepted
+[Tue Sep 30 17:32:01 2025] 127.0.0.1:51698 Closing
+[Tue Sep 30 17:32:01 2025] 127.0.0.1:51700 Accepted
+[Tue Sep 30 17:32:02 2025] 127.0.0.1:51699 Closing
+[Tue Sep 30 17:32:02 2025] 127.0.0.1:51704 Accepted
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51700 Closing
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51697 Closing
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51705 Accepted
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51704 [200]: GET /images/user.png
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51706 Accepted
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51705 Closing
+[Tue Sep 30 17:32:03 2025] 127.0.0.1:51708 Accepted
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51706 Closing
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51708 Closing
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51704 Closing
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51710 Accepted
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51710 [200]: GET /images/icono.png
+[Tue Sep 30 17:32:04 2025] 127.0.0.1:51710 Closing
+[Tue Sep 30 17:34:25 2025] 127.0.0.1:51805 Accepted
+[Tue Sep 30 17:34:25 2025] 127.0.0.1:51806 Accepted
+[Tue Sep 30 17:34:26 2025] 127.0.0.1:51805 Closing
+[Tue Sep 30 17:34:28 2025] 127.0.0.1:51806 Closing
+[Tue Sep 30 17:34:28 2025] 127.0.0.1:51812 Accepted
+[Tue Sep 30 17:34:28 2025] 127.0.0.1:51819 Accepted
+[Tue Sep 30 17:34:29 2025] 127.0.0.1:51812 Closing
+[Tue Sep 30 17:34:29 2025] 127.0.0.1:51820 Accepted
+[Tue Sep 30 17:34:29 2025] 127.0.0.1:51819 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:34:29 2025] 127.0.0.1:51821 Accepted
+[Tue Sep 30 17:34:30 2025] 127.0.0.1:51820 Closing
+[Tue Sep 30 17:34:30 2025] 127.0.0.1:51822 Accepted
+[Tue Sep 30 17:34:31 2025] 127.0.0.1:51821 Closing
+[Tue Sep 30 17:34:31 2025] 127.0.0.1:51826 Accepted
+[Tue Sep 30 17:34:32 2025] 127.0.0.1:51822 Closing
+[Tue Sep 30 17:34:32 2025] 127.0.0.1:51819 Closing
+[Tue Sep 30 17:34:32 2025] 127.0.0.1:51828 Accepted
+[Tue Sep 30 17:34:32 2025] 127.0.0.1:51826 [200]: GET /images/user.png
+[Tue Sep 30 17:34:32 2025] 127.0.0.1:51829 Accepted
+[Tue Sep 30 17:34:33 2025] 127.0.0.1:51828 Closing
+[Tue Sep 30 17:34:35 2025] 127.0.0.1:51829 Closing
+[Tue Sep 30 17:34:35 2025] 127.0.0.1:51826 Closing
+[Tue Sep 30 17:34:35 2025] 127.0.0.1:51833 Accepted
+[Tue Sep 30 17:34:35 2025] 127.0.0.1:51833 [200]: GET /images/icono.png
+[Tue Sep 30 17:34:35 2025] 127.0.0.1:51833 Closing
+[Tue Sep 30 17:37:25 2025] 127.0.0.1:51952 Accepted
+[Tue Sep 30 17:37:25 2025] 127.0.0.1:51953 Accepted
+[Tue Sep 30 17:37:27 2025] 127.0.0.1:51952 Closing
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51953 Closing
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51959 Accepted
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51966 Accepted
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51959 Closing
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51967 Accepted
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51966 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:37:29 2025] 127.0.0.1:51968 Accepted
+[Tue Sep 30 17:37:30 2025] 127.0.0.1:51967 Closing
+[Tue Sep 30 17:37:30 2025] 127.0.0.1:51969 Accepted
+[Tue Sep 30 17:37:32 2025] 127.0.0.1:51968 Closing
+[Tue Sep 30 17:37:32 2025] 127.0.0.1:51973 Accepted
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51969 Closing
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51966 Closing
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51974 Accepted
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51973 [200]: GET /images/user.png
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51976 Accepted
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51974 Closing
+[Tue Sep 30 17:37:33 2025] 127.0.0.1:51978 Accepted
+[Tue Sep 30 17:37:35 2025] 127.0.0.1:51976 Closing
+[Tue Sep 30 17:37:36 2025] 127.0.0.1:51978 Closing
+[Tue Sep 30 17:37:36 2025] 127.0.0.1:51973 Closing
+[Tue Sep 30 17:37:36 2025] 127.0.0.1:51980 Accepted
+[Tue Sep 30 17:37:36 2025] 127.0.0.1:51980 [200]: GET /images/icono.png
+[Tue Sep 30 17:37:36 2025] 127.0.0.1:51980 Closing
+[Tue Sep 30 17:39:47 2025] 127.0.0.1:52069 Accepted
+[Tue Sep 30 17:39:47 2025] 127.0.0.1:52070 Accepted
+[Tue Sep 30 17:39:47 2025] 127.0.0.1:52069 Closing
+[Tue Sep 30 17:39:49 2025] 127.0.0.1:52070 Closing
+[Tue Sep 30 17:39:49 2025] 127.0.0.1:52075 Accepted
+[Tue Sep 30 17:39:49 2025] 127.0.0.1:52082 Accepted
+[Tue Sep 30 17:39:50 2025] 127.0.0.1:52075 Closing
+[Tue Sep 30 17:39:50 2025] 127.0.0.1:52085 Accepted
+[Tue Sep 30 17:39:50 2025] 127.0.0.1:52082 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:39:50 2025] 127.0.0.1:52086 Accepted
+[Tue Sep 30 17:39:51 2025] 127.0.0.1:52085 Closing
+[Tue Sep 30 17:39:51 2025] 127.0.0.1:52087 Accepted
+[Tue Sep 30 17:39:51 2025] 127.0.0.1:52086 Closing
+[Tue Sep 30 17:39:51 2025] 127.0.0.1:52089 Accepted
+[Tue Sep 30 17:39:52 2025] 127.0.0.1:52087 Closing
+[Tue Sep 30 17:39:52 2025] 127.0.0.1:52082 Closing
+[Tue Sep 30 17:39:52 2025] 127.0.0.1:52092 Accepted
+[Tue Sep 30 17:39:52 2025] 127.0.0.1:52089 [200]: GET /images/user.png
+[Tue Sep 30 17:39:52 2025] 127.0.0.1:52093 Accepted
+[Tue Sep 30 17:39:53 2025] 127.0.0.1:52092 Closing
+[Tue Sep 30 17:39:53 2025] 127.0.0.1:52095 Accepted
+[Tue Sep 30 17:39:53 2025] 127.0.0.1:52093 Closing
+[Tue Sep 30 17:39:54 2025] 127.0.0.1:52095 Closing
+[Tue Sep 30 17:39:54 2025] 127.0.0.1:52089 Closing
+[Tue Sep 30 17:39:54 2025] 127.0.0.1:52097 Accepted
+[Tue Sep 30 17:39:54 2025] 127.0.0.1:52097 [200]: GET /images/icono.png
+[Tue Sep 30 17:39:54 2025] 127.0.0.1:52097 Closing
+[Tue Sep 30 17:40:11 2025] 127.0.0.1:52112 Accepted
+[Tue Sep 30 17:40:11 2025] 127.0.0.1:52113 Accepted
+[Tue Sep 30 17:40:11 2025] 127.0.0.1:52112 Closing
+[Tue Sep 30 17:40:12 2025] 127.0.0.1:52113 Closing
+[Tue Sep 30 17:40:12 2025] 127.0.0.1:52121 Accepted
+[Tue Sep 30 17:40:12 2025] 127.0.0.1:52122 Accepted
+[Tue Sep 30 17:40:12 2025] 127.0.0.1:52121 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:40:12 2025] 127.0.0.1:52123 Accepted
+[Tue Sep 30 17:40:13 2025] 127.0.0.1:52122 Closing
+[Tue Sep 30 17:40:13 2025] 127.0.0.1:52124 Accepted
+[Tue Sep 30 17:40:14 2025] 127.0.0.1:52123 Closing
+[Tue Sep 30 17:40:14 2025] 127.0.0.1:52125 Accepted
+[Tue Sep 30 17:40:15 2025] 127.0.0.1:52124 Closing
+[Tue Sep 30 17:40:15 2025] 127.0.0.1:52121 Closing
+[Tue Sep 30 17:40:15 2025] 127.0.0.1:52127 Accepted
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52125 Closing
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52128 Accepted
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52127 [200]: GET /images/user.png
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52130 Accepted
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52128 Closing
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52130 Closing
+[Tue Sep 30 17:40:16 2025] 127.0.0.1:52127 Closing
+[Tue Sep 30 17:40:17 2025] 127.0.0.1:52132 Accepted
+[Tue Sep 30 17:40:17 2025] 127.0.0.1:52132 [200]: GET /images/icono.png
+[Tue Sep 30 17:40:17 2025] 127.0.0.1:52132 Closing
+[Tue Sep 30 17:40:41 2025] 127.0.0.1:52134 Accepted
+[Tue Sep 30 17:40:45 2025] 127.0.0.1:52134 Closing
+[Tue Sep 30 17:42:33 2025] 127.0.0.1:52214 Accepted
+[Tue Sep 30 17:42:33 2025] 127.0.0.1:52215 Accepted
+[Tue Sep 30 17:42:34 2025] 127.0.0.1:52215 Closing
+[Tue Sep 30 17:42:36 2025] 127.0.0.1:52214 Closing
+[Tue Sep 30 17:42:36 2025] 127.0.0.1:52224 Accepted
+[Tue Sep 30 17:42:36 2025] 127.0.0.1:52226 Accepted
+[Tue Sep 30 17:42:36 2025] 127.0.0.1:52224 [200]: GET /images/logo-light.png
+[Tue Sep 30 17:42:36 2025] 127.0.0.1:52228 Accepted
+[Tue Sep 30 17:42:37 2025] 127.0.0.1:52226 Closing
+[Tue Sep 30 17:42:37 2025] 127.0.0.1:52229 Accepted
+[Tue Sep 30 17:42:38 2025] 127.0.0.1:52228 Closing
+[Tue Sep 30 17:42:38 2025] 127.0.0.1:52230 Accepted
+[Tue Sep 30 17:42:39 2025] 127.0.0.1:52229 Closing
+[Tue Sep 30 17:42:39 2025] 127.0.0.1:52224 Closing
+[Tue Sep 30 17:42:39 2025] 127.0.0.1:52232 Accepted
+[Tue Sep 30 17:42:39 2025] 127.0.0.1:52230 [200]: GET /images/user.png
+[Tue Sep 30 17:42:39 2025] 127.0.0.1:52233 Accepted
+[Tue Sep 30 17:42:40 2025] 127.0.0.1:52232 Closing
+[Tue Sep 30 17:42:40 2025] 127.0.0.1:52235 Accepted
+[Tue Sep 30 17:42:41 2025] 127.0.0.1:52233 Closing
+[Tue Sep 30 17:42:41 2025] 127.0.0.1:52236 Accepted
+[Tue Sep 30 17:42:42 2025] 127.0.0.1:52235 Closing
+[Tue Sep 30 17:42:42 2025] 127.0.0.1:52230 Closing
+[Tue Sep 30 17:42:43 2025] 127.0.0.1:52236 Closing
+[Tue Sep 30 17:42:43 2025] 127.0.0.1:52238 Accepted
+[Tue Sep 30 17:42:43 2025] 127.0.0.1:52238 [200]: GET /images/icono.png
+[Tue Sep 30 17:42:43 2025] 127.0.0.1:52238 Closing
+[Tue Sep 30 17:44:54 2025] 127.0.0.1:52335 Accepted
+[Tue Sep 30 17:44:54 2025] 127.0.0.1:52336 Accepted
+[Tue Sep 30 17:45:23 2025] 127.0.0.1:52336 Closing

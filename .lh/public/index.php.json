@@ -1,0 +1,18 @@
+{
+    "sourceFile": "public/index.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1753310714280,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1753310714280,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse Illuminate\\Contracts\\Http\\Kernel;\nuse Illuminate\\Http\\Request;\n\ndefine('LARAVEL_START', microtime(true));\n\n/*\n|--------------------------------------------------------------------------\n| Check If The Application Is Under Maintenance\n|--------------------------------------------------------------------------\n|\n| If the application is in maintenance / demo mode via the \"down\" command\n| we will load this file so that any pre-rendered content can be shown\n| instead of starting the framework, which could cause an exception.\n|\n*/\n\nif (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {\n    require $maintenance;\n}\n\n/*\n|--------------------------------------------------------------------------\n| Register The Auto Loader\n|--------------------------------------------------------------------------\n|\n| Composer provides a convenient, automatically generated class loader for\n| this application. We just need to utilize it! We'll simply require it\n| into the script here so we don't need to manually load our classes.\n|\n*/\n\nrequire __DIR__.'/../vendor/autoload.php';\n\n/*\n|--------------------------------------------------------------------------\n| Run The Application\n|--------------------------------------------------------------------------\n|\n| Once we have the application, we can handle the incoming request using\n| the application's HTTP kernel. Then, we will send the response back\n| to this client's browser, allowing them to enjoy our application.\n|\n*/\n\n$app = require_once __DIR__.'/../bootstrap/app.php';\n\n$kernel = $app->make(Kernel::class);\n\n$response = $kernel->handle(\n    $request = Request::capture()\n)->send();\n\n$kernel->terminate($request, $response);\n\nerror_reporting(E_ALL);\nini_set('display_errors', 1);"
+        }
+    ]
+}
