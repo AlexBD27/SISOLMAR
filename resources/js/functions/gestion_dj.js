@@ -278,14 +278,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const provinciaSelect = document.getElementById("provincia");
     const distritoSelect = document.getElementById("distrito");
 
+    const API_BASE = `${VITE_URL_APP}/api/ubicacion`;
+
     // Cargar departamentos al inicio
-    fetch("/ubicacion/departamentos")
-        .then(res => res.json())
-        .then(data => {
-            data.forEach(dep => {
+    axios.get(`${API_BASE}/departamentos`)
+        .then(response => {
+            response.data.forEach(dep => {
                 let option = new Option(dep.depa_descripcion, dep.depa_codigo);
                 departamentoSelect.add(option);
             });
+        })
+        .catch(error => {
+            console.error("Error cargando departamentos:", error);
         });
 
     // Cuando cambie el departamento
@@ -295,30 +299,33 @@ document.addEventListener('DOMContentLoaded', function () {
         distritoSelect.innerHTML = '<option value="">Seleccionar</option>';
 
         if (departamentoId) {
-            fetch(`/ubicacion/provincias/${departamentoId}`)
-                .then(res => res.json())
-                .then(data => {
-                    data.forEach(prov => {
+            axios.get(`${API_BASE}/provincias/${departamentoId}`)
+                .then(response => {
+                    response.data.forEach(prov => {
                         let option = new Option(prov.provi_descripcion, prov.provi_codigo);
                         provinciaSelect.add(option);
                     });
+                })
+                .catch(error => {
+                    console.error("Error cargando provincias:", error);
                 });
         }
     });
 
-    // Cuando cambie la provincia
     provinciaSelect.addEventListener("change", function () {
         let provinciaId = this.value;
         distritoSelect.innerHTML = '<option value="">Seleccionar</option>';
 
         if (provinciaId) {
-            fetch(`/ubicacion/distritos/${provinciaId}`)
-                .then(res => res.json())
-                .then(data => {
-                    data.forEach(dist => {
+            axios.get(`${API_BASE}/distritos/${provinciaId}`)
+                .then(response => {
+                    response.data.forEach(dist => {
                         let option = new Option(dist.dist_descripcion, dist.dist_codigo);
                         distritoSelect.add(option);
                     });
+                })
+                .catch(error => {
+                    console.error("Error cargando distritos:", error);
                 });
         }
     });
