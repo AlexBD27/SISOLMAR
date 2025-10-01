@@ -9,7 +9,9 @@ const cardProg = document.getElementById('cardProgramacion');
 window.cursoSeleccionado = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await listarCursos()
+    await listarTipoCurso('slcFiltroTipoCurso', true)
+    await listarAreas('slcFiltroArea', true)
+    await listarCursos()
 
   new DataTable(document.getElementById('tblCursos'), {
     perPage: 10,
@@ -24,25 +26,65 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 })
 
-async function listarCursos() {
+window.listarCursos = async function(habilitado = 1, area = '', tipoCurso = '') {
   try {
-    const res = await axios.get(`${VITE_URL_APP}/api/get-cursos/1`)
-    cursosData = res.data
-    renderTablaCursos(cursosData)
+    const res = await axios.get(`${VITE_URL_APP}/api/get-cursos/${habilitado}`, {
+      params: { area, tipoCurso }
+    });
+    cursosData = res.data;
+    renderTablaCursos(cursosData);
   } catch (err) {
-    console.error("Error al obtener cursos", err)
-    Swal.fire("Error", "No se pudieron cargar los cursos", "error")
+    console.error("Error al obtener cursos", err);
+    Swal.fire("Error", "No se pudieron cargar los cursos", "error");
   }
 }
 
-async function listarCursosFiltro() {
+async function listarTipoCurso(selectId, esFiltro = false) {
   try {
-    const res = await axios.get(`${VITE_URL_APP}/api/get-cursos/0`)
-    cursosData = res.data
-    renderTablaCursos(cursosData)
+    const res = await axios.get(`${VITE_URL_APP}/api/get-capacitacion-tipo-cursos`);
+    const tipoCursosData = res.data;
+    const select = document.getElementById(selectId);
+
+    select.innerHTML = esFiltro 
+      ? '<option value="">-- Todos --</option>' 
+      : '<option value="">-- Seleccione --</option>';
+
+    tipoCursosData.forEach(curso => {
+      const option = document.createElement("option");
+      option.value = curso.codigo;
+      option.textContent = curso.descripcion;
+      select.appendChild(option);
+    });
   } catch (err) {
-    console.error("Error al obtener cursos", err)
-    Swal.fire("Error", "No se pudieron cargar los cursos", "error")
+    console.error("Error al obtener tipos de cursos", err);
+    Swal.fire("Error", "No se pudieron cargar los tipos de cursos", "error");
+  }
+}
+
+async function listarAreas(selectId, esFiltro = false) {
+  try {
+    const res = await axios.get(`${VITE_URL_APP}/api/get-capacitacion-areas`);
+    const areasData = Array.isArray(res.data) ? res.data : [];
+
+    const select = document.getElementById(selectId);
+
+    select.innerHTML = esFiltro
+      ? '<option value="">-- Todas --</option>'
+      : '<option value="">-- Seleccione --</option>';
+
+    if (areasData.length === 0) {
+      console.warn("No hay áreas disponibles");
+    } else {
+      areasData.forEach(area => {
+        const option = document.createElement("option");
+        option.value = area.codigo;
+        option.textContent = area.descripcion;
+        select.appendChild(option);
+      });
+    }
+  } catch (err) {
+    console.error("Error al obtener las áreas", err);
+    Swal.fire("Error", "No se pudieron cargar las áreas", "error");
   }
 }
 
@@ -71,6 +113,7 @@ function renderTablaCursos(data) {
         <td>${index + 1}</td>
          <td>${curso.codigoCurso}</td>
         <td>${curso.nombre}</td>
+        <td>${curso.periodicidad ?? 'No definido'}</td>
         <!-- <td style="display: none;" hidden>${curso.periodo_inicio ?? ''}&nbsp;<i class='bx bx-right-arrow-alt'></i>&nbsp;${curso.periodo_fin ?? ''} </td> -->
         <td>
             <button type="button" @click="programacionCurso('${ curso.codigo }', '${ curso.nombre }')"

@@ -44,6 +44,7 @@ class CapacitacionController extends Controller
                 'codigoCurso' => $curso->codigo_curso,
                 'nombre' => $curso->nombre,
                 'habilitado' => $curso->habilitado,
+                'periodicidad' => $curso->periodicidad,
             ];
         });
 

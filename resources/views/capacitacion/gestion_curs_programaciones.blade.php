@@ -10,12 +10,60 @@
             <h4 class="card-title">Lista de cursos</h4>
         </div>
         <div class="card-body">
+
+            <div 
+                x-data="{ soloEliminados: false, filtroArea: '', filtroTipoCurso: '' }" 
+                class="flex flex-wrap items-end gap-6"
+            >
+                <div class="flex items-center">
+                <input 
+                    class="form-switch" 
+                    type="checkbox" 
+                    role="switch" 
+                    id="chkEliminados"
+                    x-model="soloEliminados"
+                >
+                <label class="ms-1.5 font-medium text-sm text-gray-700" for="chkEliminados">
+                    Solo eliminados
+                </label>
+                </div>
+
+                <div class="flex flex-col flex-1 min-w-[200px]">
+                <label for="slcFiltroTipoCurso" class="text-sm font-medium text-gray-700 mb-1">
+                    Tipo de curso
+                </label>
+                <select 
+                    id="slcFiltroTipoCurso" 
+                    x-model="filtroTipoCurso"
+                    class="w-full rounded-lg border-gray-300 text-sm px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                    <option value="">-- Todos --</option>
+                </select>
+                </div>
+
+                <div class="flex flex-col flex-1 min-w-[200px]">
+                <label for="slcFiltroArea" class="text-sm font-medium text-gray-700 mb-1">
+                    Área
+                </label>
+                <select 
+                    id="slcFiltroArea" 
+                    x-model="filtroArea"
+                    class="w-full rounded-lg border-gray-300 text-sm px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                >
+                    <option value="">-- Todas --</option>
+                </select>
+                </div>
+
+                <div x-effect="listarCursos( soloEliminados ? 0 : 1, filtroArea, filtroTipoCurso )"></div>
+            </div>
+
             <div class="mt-5 overflow-y overflow-x">
                 <table id="tblCursos" class="datatable responsive-table" >
                     <thead>
                         <th >#</th>
                         <th >Codigo</th>
                         <th >Nombre</th>
+                        <th >Límite anual</th>
                         <th >Acciones</th>
                     </thead>
                     <tbody>
