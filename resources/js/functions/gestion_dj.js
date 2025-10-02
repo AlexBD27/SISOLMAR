@@ -4,6 +4,9 @@ import Swal from 'sweetalert2';
 import {TabulatorFull as Tabulator} from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator_simple.min.css';
 
+import Tagify from '@yaireo/tagify';
+import '@yaireo/tagify/dist/tagify.css';
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -44,23 +47,42 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         columns:[
-            {title:"Cód.", field:"CODI_PERS", hozAlign:"center", width: '15%'},
-            {title:"Personal", field:"personal", hozAlign:"left", width: '40%'},
-            {title:"Nro Doc.", field:"nroDoc", hozAlign:"center", width: '20%'},
-            {title: "Acciones", field: "acciones", width: '25%', hozAlign: "center", headerSort: false,
-                formatter: function(cell, formatterParams, onRendered) {
-                    var formBtn = `<button type="button" class="btn rounded-full form-btn bg-success/25 text-success hover:bg-success hover:text-white" >Formulario</button>`;
+            {title:"N°", formatter:"rownum", hozAlign:"center", width:60},
 
-                    return formBtn;
+            {
+                title:"Nombres",
+                field:"nombres",
+                hozAlign:"left",
+                widthGrow:3,
+                formatter: function(cell){
+                    let data = cell.getData();
+                    return `${data.nombres ?? ''} ${data.apellido1 ?? ''} ${data.apellido2 ?? ''} `.trim();
+                }
+            },
+
+            {title:"DNI", field:"dni", hozAlign:"center", widthGrow:2},
+
+            {
+                title:"Acciones",
+                field:"acciones",
+                hozAlign:"center",
+                headerSort:false,
+                widthGrow:1,
+                formatter: function(cell){
+                    return `<button type="button" class="btn rounded-full form-btn bg-success/25 text-success hover:bg-success hover:text-white">Formulario</button>`;
                 },
-
                 cellClick: function(e, cell) {
+
                     if (e.target.classList.contains('form-btn')) {
-                        abrirFormulario(); 
+                        var registro = cell.getRow().getData();
+
+                        abrirFormulario(registro);
                     }
                 }
             },
         ],
+        layout:"fitColumns",
+
     });
 
     //Tabla de Coincidencias
@@ -138,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Función para obtener el listados de personas
     function getPersonal(){
-        axios.get(`${ VITE_URL_APP }/api/get-personal`)
+        axios.get(`${ VITE_URL_APP }/api/get-postulantes`)
         .then(response => {
             const datosTabla = response.data;
             tblPersonas.setData(datosTabla);
@@ -209,7 +231,68 @@ document.addEventListener('DOMContentLoaded', function () {
         if (row) row.remove();
     });
 
-    window.abrirFormulario = function () {
+    window.abrirFormulario = function (data) {
+
+        if(data){
+            document.getElementById("cod_postulante").value = data.id;
+            document.getElementById("nombres_apellidos").value = data.nombres + ' ' + data.apellido1 + ' ' + data.apellido2;
+            document.getElementById("dni").value = data.dni ?? '';
+            document.getElementById("fecha_nacimiento").value = data.fecha_nacimiento ?? '';
+
+            //Seleccionar departamento
+            const departamentoSelect = document.getElementById("departamento");
+            const provinciaSelect = document.getElementById("provincia");
+            const distritoSelect = document.getElementById("distrito");
+
+            if (data.departamento) {
+                departamentoSelect.value = data.departamento;
+
+                departamentoSelect.dispatchEvent(new Event("change"));
+
+                setTimeout(() => {
+                    if (data.provincia) {
+                        provinciaSelect.value = data.provincia;
+                        provinciaSelect.dispatchEvent(new Event("change"));
+
+                        setTimeout(() => {
+                            if (data.distrito) {
+                                distritoSelect.value = data.distrito;
+                            }
+                        }, 150);
+                    }
+                }, 150);
+            }
+
+            document.getElementById("celular").value = data.celular ?? '';
+            document.getElementById("correo").value = data.correo ?? '';
+            document.getElementById("grado_instruccion").value = data.grado_instruccion ?? '';
+            document.getElementById("curso_sucamec").value = (data.sucamec && data.sucamec.toUpperCase() === "SI") ? 1 : 0;
+
+            const inputLicencia = document.getElementById("licencia_arma");
+            const tagify = new Tagify(inputLicencia, {
+                maxTags: 2
+                });
+
+            let licencias = data.licencia_arma;
+
+            tagify.removeAllTags();
+
+            if (typeof licencias === "string") {
+                try {
+                    licencias = JSON.parse(licencias);
+                } catch(e) {
+                    licencias = [licencias]; 
+                }
+            }
+
+            if (licencias && Array.isArray(licencias)) {
+                tagify.addTags(licencias);
+            }
+
+
+
+        }
+
         inputFoto.value = '';
         preview.src = '';
         preview.classList.add("hidden");
@@ -230,12 +313,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnSubir = document.getElementById("btnSubirFoto");
     const btnEliminar = document.getElementById("btnEliminarFoto");
 
-    const cursoSucamec = document.getElementById("curso-sucamec");
-    const institucionContainer = document.getElementById("institucion-container");
-    const institucionInput = document.getElementById("institucion-laboral");
+    const cursoSucamec = document.getElementById("curso_sucamec");
+    const institucionContainer = document.getElementById("institucion_container");
+    const institucionInput = document.getElementById("institucion_laboral");
 
     cursoSucamec.addEventListener("change", () => {
-        if (cursoSucamec.value === "si") {
+        if (cursoSucamec.value === "1") {
         institucionContainer.classList.remove("hidden");
         } else {
         institucionContainer.classList.add("hidden");

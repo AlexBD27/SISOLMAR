@@ -101,6 +101,7 @@ Route::get('/ubicacion/provincias/{departamento_id}', [UbicacionController::clas
 Route::get('/ubicacion/distritos/{provincia_id}', [UbicacionController::class, 'distritos']);
 
 
+Route::get('/get-postulantes', [FileController::class, 'getPostulantes']);
 
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\PdfHelper;
 use App\Helpers\ImagenHelper;
 use Barryvdh\Snappy\Facades\SnappyPdf;
+use DB;
 use Illuminate\Http\Request;
 use App\Models\FileControl;
 use Illuminate\Support\Facades\App;
@@ -1111,6 +1112,23 @@ class FileController extends Controller{
 
         FileControl::saveSolicitud($codigo, $tiene, $cargo, $cliente, $usuario);
         return response()->json(['message' => 'Solicitud creado']);
+    }
+
+    public function getPostulantes()
+    {
+        try {
+            $data = DB::connection('sqlsrv_prueba1')
+                ->table('dbo.postulantes as p')
+                ->join('dbo.estado_postulantes as ep', 'p.estado', '=', 'ep.id')
+                ->select('p.*', 'ep.nombre as estado_nombre')
+                ->where('ep.nombre', 'APTO')
+                ->get();
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 
 }
