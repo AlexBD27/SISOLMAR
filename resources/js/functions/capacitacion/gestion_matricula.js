@@ -7,6 +7,7 @@ import 'tabulator-tables/dist/css/tabulator_simple.min.css';
 let cursosData = [];
 let tblPersonalMatricula = null;
 let cursoActual = null;
+let personasSeleccionadas = new Set();
 
 document.addEventListener('DOMContentLoaded', async () => {
   
@@ -31,49 +32,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     btn.addEventListener("click", async (e) => {
         const cursoId = e.target.dataset.cursoId;
         const cursoNombre = e.target.dataset.cursoNombre || "Curso seleccionado";
-
-        console.log("CURSO SELECCIONADO: " + cursoId);
         
         cursoActual = cursoId;
         
-        // Mostrar nombre del curso
         document.getElementById("nombreCurso").textContent = cursoNombre;
         
-        // Cargar lista de personal antes de mostrar
         await cargarPersonal(cursoId);
         
-        // Abrir modal manualmente
         HSOverlay.open('#modal-registro');
     });
 });
 
-    // document.querySelectorAll(".btn-matricula").forEach(btn => {
-    //     btn.addEventListener("click", async (e) => {
-    //         const cursoId = e.target.dataset.cursoId
 
-    //         // cargar lista de personal antes de mostrar
-    //         await cargarPersonal(cursoId)
-
-    //         // abrir modal manualmente
-    //         HSOverlay.open('#modal-registro')
-    //     })
-    // })
-
-
-
-    // Guardar matrícula
 document.getElementById("btnGuardarMatricula").addEventListener("click", async function() {
-    const seleccionados = [...document.querySelectorAll("#tblPersonalMatricula input[type=checkbox]:checked")]
-        .map(chk => chk.dataset.id);
+    console.log("🔴 personasSeleccionadas antes de convertir:", personasSeleccionadas);
+    console.log("🔴 Tipo:", typeof personasSeleccionadas);
+    console.log("🔴 Es Set?:", personasSeleccionadas instanceof Set);
+    
+    const seleccionados = Array.from(personasSeleccionadas);
+    
+    console.log("📋 Total a matricular:", seleccionados.length);
+    console.log("👥 IDs:", seleccionados);
     
     if (seleccionados.length === 0) {
         alert("Por favor, seleccione al menos una persona para matricular");
         return;
     }
     
-    console.log("Matricular en curso " + cursoActual + " a:", seleccionados);
-    
-    // Deshabilitar botón mientras se procesa
     this.disabled = true;
     this.innerHTML = '<i class="i-tabler-loader animate-spin mr-2"></i> Procesando matrícula...';
     
@@ -83,15 +68,16 @@ document.getElementById("btnGuardarMatricula").addEventListener("click", async f
         //     personalIds: seleccionados
         // });
         
-        // if (response.status === 200) {
-        //     alert(`✓ ${seleccionados.length} persona(s) matriculada(s) exitosamente.\nSe enviaron ${seleccionados.length} correos de notificación.`);
+        // if (response.status === 200 || response.status === 201) {
+        //     alert(`✓ ${seleccionados.length} persona(s) matriculada(s) exitosamente.`);
+        //     personasSeleccionadas.clear();
         //     HSOverlay.close('#modal-registro');
-        //     // Recargar tabla si es necesario
         // }
-        
+
         //Simulación
         setTimeout(() => {
             alert(`${seleccionados.length} persona(s) matriculada(s) exitosamente`);
+            personasSeleccionadas.clear();
             HSOverlay.close('#modal-registro');
             this.disabled = false;
             this.innerHTML = '<i class="i-tabler-check mr-2"></i> Matricular Seleccionados';
@@ -99,7 +85,8 @@ document.getElementById("btnGuardarMatricula").addEventListener("click", async f
         
     } catch (error) {
         console.error("Error al matricular:", error);
-        alert("Ocurrió un error al matricular el personal");
+        alert(error.response?.data?.message || "Ocurrió un error al matricular el personal");
+    } finally {
         this.disabled = false;
         this.innerHTML = '<i class="i-tabler-check mr-2"></i> Matricular Seleccionados';
     }
@@ -175,17 +162,6 @@ async function listarAreas(selectId, esFiltro = false) {
   }
 }
 
-async function obtenerCursoXId(id) {
-  try {
-    const res = await axios.get(`${VITE_URL_APP}/api/get-curso-id/${id}`)
-    return res.data;
-  } catch (err) {
-    console.error("Error al obtener cursos", err)
-    Swal.fire("Error", "No se pudieron cargar los cursos", "error");
-    return false;
-  }
-}
-
 function renderTablaCursos(data) {
   const tbody = document.querySelector("#tblCursos tbody")
   if (!tbody) return
@@ -229,149 +205,165 @@ function renderTablaCursos(data) {
 
 
 async function cargarPersonal(cursoId) {
-    
-    //Ruta con axios
-    const response = await axios.get(`${VITE_URL_APP}/api/get-personal`);
-    const personal = response.data;
+    try {
+        // Limpiar selecciones anteriores
+        personasSeleccionadas.clear();
+        
+        const response = await axios.get(`${VITE_URL_APP}/api/get-personal`);
+        const personal = response.data;
 
-    // Inicializar o actualizar Tabulator
-    if (tblPersonalMatricula) {
-        tblPersonalMatricula.destroy();
-    }
+        if (tblPersonalMatricula) {
+            tblPersonalMatricula.destroy();
+        }
 
-    tblPersonalMatricula = new Tabulator("#tblPersonalMatricula", {
-        data: personal,
-        height: "100%",
-        layout: "fitColumns",
-        responsiveLayout: "collapse",
-        pagination: true,
-        paginationSize: 10,
-        paginationSizeSelector: [5, 10, 20, 50],
-        locale: "es",
-        langs: {
-            "es": {
-                "pagination": {
-                    "first": "Primero",
-                    "first_title": "Primera Página",
-                    "last": "Último",
-                    "last_title": "Última Página",
-                    "prev": "Anterior",
-                    "prev_title": "Página Anterior",
-                    "next": "Siguiente",
-                    "next_title": "Página Siguiente",
-                    "page_size": "Registros por página"
-                }
-            }
-        },
-        rowHeader: {
-            formatter: "responsiveCollapse",
-            width: 30,
-            minWidth: 30,
-            hozAlign: "center",
-            resizable: false,
-            headerSort: false
-        },
-        columns: [
-            {
-                title: "Seleccionar",
-                field: "seleccionar",
-                width: 100,
-                hozAlign: "center",
-                headerHozAlign: "center",
-                formatter: function(cell) {
-                    const data = cell.getRow().getData();
-
-                    if (data.matriculado) {
-                        return `<span class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded">
-                                    <i class="i-tabler-check mr-1"></i> Matriculado
-                                </span>`;
+        tblPersonalMatricula = new Tabulator("#tblPersonalMatricula", {
+            data: personal,
+            height: "100%",
+            layout: "fitColumns",
+            responsiveLayout: "collapse",
+            pagination: true,
+            paginationSize: 10,
+            paginationSizeSelector: [5, 10, 20, 50],
+            locale: "es",
+            langs: {
+                "es": {
+                    "pagination": {
+                        "first": "Primero",
+                        "first_title": "Primera Página",
+                        "last": "Último",
+                        "last_title": "Última Página",
+                        "prev": "Anterior",
+                        "prev_title": "Página Anterior",
+                        "next": "Siguiente",
+                        "next_title": "Página Siguiente",
+                        "page_size": "Registros por página"
                     }
-                    return `<input type="checkbox" class="form-checkbox h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500" 
-                                data-id="${data.CODI_PERS}">`;
-                },
+                }
+            },
+            rowHeader: {
+                formatter: "responsiveCollapse",
+                width: 30,
+                minWidth: 30,
+                hozAlign: "center",
+                resizable: false,
                 headerSort: false
             },
-            {
-                title: "Nombre Completo",
-                field: "personal",
-                minWidth: 200,
-                responsive: 0,
-                formatter: function(cell) {
-                    const data = cell.getRow().getData();
-                    return `<div class="font-medium text-gray-900">${data.personal}</div>`;
+            columns: [
+                {
+                    title: "Seleccionar",
+                    field: "seleccionar",
+                    width: 100,
+                    hozAlign: "center",
+                    headerHozAlign: "center",
+                    formatter: function(cell) {
+                        const data = cell.getRow().getData();
+                        const codiPers = data.CODI_PERS;
+                        
+                        // Verificar si ya está seleccionado
+                        const isChecked = personasSeleccionadas.has(codiPers) ? 'checked' : '';
+                        
+                        return `<input type="checkbox" 
+                                    class="checkbox-personal form-checkbox h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500" 
+                                    ${isChecked}
+                                    data-codi-pers="${codiPers}">`;
+                    },
+                    headerSort: false
+                },
+                {
+                    title: "Nombre Completo",
+                    field: "personal",
+                    minWidth: 200,
+                    responsive: 0,
+                    formatter: function(cell) {
+                        return `<div class="font-medium text-gray-900">${cell.getValue()}</div>`;
+                    }
+                },
+                {
+                    title: "DNI",
+                    field: "nroDoc",
+                    width: 120,
+                    responsive: 1,
+                    hozAlign: "center",
+                    headerHozAlign: "center"
+                },
+                {
+                    title: "Sucursal",
+                    field: "sucursal",
+                    width: 150,
+                    responsive: 2,
+                    formatter: function(cell) {
+                        return `<span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded">
+                                    ${cell.getValue()}
+                                </span>`;
+                    }
                 }
-            },
-            {
-                title: "DNI",
-                field: "nroDoc",
-                width: 120,
-                responsive: 1,
-                hozAlign: "center",
-                headerHozAlign: "center"
-            },
-            {
-                title: "Sucursal",
-                field: "sucursal",
-                width: 150,
-                responsive: 2,
-                formatter: function(cell) {
-                    return `<span class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded">
-                                ${cell.getValue()}
-                            </span>`;
-                }
-            },
-            {
-                title: "Estado",
-                field: "matriculado",
-                width: 120,
-                responsive: 3,
-                hozAlign: "center",
-                headerHozAlign: "center",
-                formatter: function(cell) {
-                    return cell.getValue() 
-                        ? '<span class="text-green-600 font-medium">✓ Activo</span>'
-                        : '<span class="text-gray-500">Disponible</span>';
-                }
-            }
-        ]
-    });
+            ]
+        });
 
+        // Esperar a que la tabla esté construida
+        tblPersonalMatricula.on("tableBuilt", function() {
+            actualizarContadores(personal);
+            configurarBuscador();
+        });
 
-    // ESPERAR A QUE TABULATOR TERMINE DE CARGAR
-    tblPersonalMatricula.on("tableBuilt", function() {
-        
-        // Actualizar contadores iniciales
-        actualizarContadores(personal);
-        
-        // Configurar el buscador DESPUÉS de que la tabla esté lista
-        configurarBuscador();
-        
-        // Configurar listeners de checkboxes
-        configurarCheckboxes();
-    });
+        configurarEventosCheckboxes();
 
-    // actualizarContadores(personal);
-
-    // const inputBuscar = document.getElementById("buscarPersonal");
-    // inputBuscar.value = "";
-    // inputBuscar.addEventListener("keyup", function() {
-    //     const filtro = this.value;
-    //     tblPersonalMatricula.setFilter([
-    //         {field: "personal", type: "like", value: filtro},
-    //         {field: "nroDoc", type: "like", value: filtro},
-    //         {field: "sucursal", type: "like", value: filtro}
-    //     ], "or");
-    // });
-
-    // setTimeout(() => {
-    //     document.querySelectorAll("#tblPersonalMatricula input[type=checkbox]").forEach(chk => {
-    //         chk.addEventListener("change", () => {
-    //             actualizarContadorSeleccionados();
-    //         });
-    //     });
-    // }, 100);
+    } catch (error) {
+        console.error("Error al cargar el personal:", error);
+        alert("No se pudo cargar la lista de personal. Por favor, intente nuevamente.");
+    }
 }
 
+function configurarEventosCheckboxes() {
+    const contenedorTabla = document.getElementById("tblPersonalMatricula");
+    
+    if (!contenedorTabla) return;
+    
+    // Remover listeners anteriores usando una bandera
+    if (!contenedorTabla.dataset.listenerAgregado) {
+        contenedorTabla.addEventListener('change', function(e) {
+            if (e.target && e.target.classList.contains('checkbox-personal')) {
+                const codiPers = e.target.dataset.codiPers;
+                
+                console.log("Checkbox cambiado:", codiPers, "Checked:", e.target.checked);
+                
+                if (e.target.checked) {
+                    personasSeleccionadas.add(codiPers);
+                    console.log("✓ Agregado:", codiPers);
+                } else {
+                    personasSeleccionadas.delete(codiPers);
+                    console.log("✗ Removido:", codiPers);
+                }
+                
+                console.log("📋 Total seleccionados:", personasSeleccionadas.size);
+                console.log("👥 Array:", Array.from(personasSeleccionadas));
+                
+                actualizarContadorSeleccionados();
+            }
+        });
+        
+        // Marcar que ya se agregó el listener
+        contenedorTabla.dataset.listenerAgregado = 'true';
+    }
+}
+
+function actualizarContadorSeleccionados() {
+    const seleccionados = personasSeleccionadas.size;
+    
+    const contadorElement = document.getElementById("countSeleccionados");
+    if (contadorElement) {
+        contadorElement.textContent = seleccionados;
+    }
+    
+    const mensajeElement = document.getElementById("mensajeSeleccion");
+    if (mensajeElement) {
+        const mensaje = seleccionados > 0 
+            ? `${seleccionados} persona${seleccionados > 1 ? 's' : ''} seleccionada${seleccionados > 1 ? 's' : ''} para matricular`
+            : "Seleccione el personal a matricular";
+        
+        mensajeElement.textContent = mensaje;
+    }
+}
 
 function configurarBuscador() {
     const inputBuscar = document.getElementById("buscarPersonal");
@@ -381,64 +373,47 @@ function configurarBuscador() {
         return;
     }
     
-    // Limpiar el input
+    // Limpiar valor
     inputBuscar.value = "";
     
-    // REMOVER event listeners anteriores
-    inputBuscar.replaceWith(inputBuscar.cloneNode(true));
-    const nuevoInput = document.getElementById("buscarPersonal");
+    // Si ya tiene listener, no agregar otro
+    if (inputBuscar.dataset.listenerAgregado) {
+        return;
+    }
     
-    // Agregar el event listener
-    nuevoInput.addEventListener("keyup", function() {
-        const filtro = this.value.trim();
+    inputBuscar.addEventListener("keyup", function() {
+        const filtro = this.value.trim().toLowerCase();
         
-        console.log("Buscando:", filtro);
+        console.log("🔍 Buscando:", filtro);
         
         if (filtro === "") {
             tblPersonalMatricula.clearFilter();
         } else {
-            // Usar filterMode para ignorar mayúsculas/minúsculas
-            tblPersonalMatricula.setFilter([
-                [
-                    {field: "personal", type: "like", value: filtro},
-                    {field: "nroDoc", type: "like", value: filtro},
-                    {field: "sucursal", type: "like", value: filtro}
-                ]
-            ]);
+            tblPersonalMatricula.setFilter(function(data){
+                const personal = (data.personal || "").toLowerCase();
+                const nroDoc = (data.nroDoc || "").toLowerCase();
+                const sucursal = (data.sucursal || "").toLowerCase();
+                
+                return personal.includes(filtro) || 
+                       nroDoc.includes(filtro) || 
+                       sucursal.includes(filtro);
+            });
         }
     });
+    
+    // Marcar que ya tiene listener
+    inputBuscar.dataset.listenerAgregado = 'true';
 }
-
-// Función separada para configurar checkboxes
-function configurarCheckboxes() {
-    setTimeout(() => {
-        document.querySelectorAll("#tblPersonalMatricula input[type=checkbox]").forEach(chk => {
-            chk.addEventListener("change", () => {
-                actualizarContadorSeleccionados();
-            });
-        });
-    }, 100);
-}
-
 
 function actualizarContadores(personal) {
     const matriculados = personal.filter(p => p.matriculado).length;
     const disponibles = personal.filter(p => !p.matriculado).length;
     
-    document.getElementById("countMatriculados").textContent = matriculados;
-    document.getElementById("countDisponibles").textContent = disponibles;
+    const elemMatriculados = document.getElementById("countMatriculados");
+    const elemDisponibles = document.getElementById("countDisponibles");
+    
+    if (elemMatriculados) elemMatriculados.textContent = matriculados;
+    if (elemDisponibles) elemDisponibles.textContent = disponibles;
+    
     document.getElementById("countSeleccionados").textContent = "0";
 }
-
-function actualizarContadorSeleccionados() {
-    const seleccionados = document.querySelectorAll("#tblPersonalMatricula input[type=checkbox]:checked").length;
-    document.getElementById("countSeleccionados").textContent = seleccionados;
-    
-    const mensaje = seleccionados > 0 
-        ? `${seleccionados} persona${seleccionados > 1 ? 's' : ''} seleccionada${seleccionados > 1 ? 's' : ''} para matricular`
-        : "Seleccione el personal a matricular";
-    
-    document.getElementById("mensajeSeleccion").textContent = mensaje;
-}
-
-
