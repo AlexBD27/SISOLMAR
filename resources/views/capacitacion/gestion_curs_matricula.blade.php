@@ -78,48 +78,49 @@
 
 </div>
 
-
 <div id="modal-registro"
-    class="hs-overlay w-full h-full fixed top-0 left-0 z-70 transition-all duration-500 overflow-y-auto hidden pointer-events-none">
-    <div class="translate-y-10 hs-overlay-open:translate-y-0 hs-overlay-open:opacity-100 opacity-0 ease-in-out transition-all duration-500 sm:max-w-5xl sm:w-full my-8 sm:mx-auto flex flex-col bg-white shadow-lg rounded-2xl">
-        
-        <!-- Header -->
-        <div class="flex justify-between items-center py-3 px-6 border-b border-default-200 bg-gray-50 rounded-t-2xl">
-            <h2 class="text-lg font-semibold text-gray-800">Matricular Personal en Curso</h2>
-            <button type="button" class="text-gray-600 hover:text-gray-900" data-hs-overlay="#modal-registro">
-                <i class="i-tabler-x text-xl"></i>
-            </button>
-        </div>
+  class="hs-overlay w-full h-full fixed top-0 left-0 z-70 transition-all duration-500 overflow-y-auto hidden pointer-events-none">
+  <div
+    class="translate-y-10 hs-overlay-open:translate-y-0 hs-overlay-open:opacity-100 opacity-0 ease-in-out transition-all duration-500 sm:max-w-lg sm:w-full my-8 sm:mx-auto flex flex-col bg-white shadow-sm rounded">
+    <div class="flex flex-col border border-default-200 shadow-sm rounded-lg pointer-events-auto">
 
-        <!-- Body -->
-        <div class="p-6 overflow-x-auto">
-            <table id="tablaPersonal" class="w-full border text-sm rounded-lg">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-4 py-2">Seleccionar</th>
-                        <th class="px-4 py-2">DNI</th>
-                        <th class="px-4 py-2">Nombres</th>
-                        <th class="px-4 py-2">Correo</th>
-                        <th class="px-4 py-2">Cargo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Se llena dinámicamente -->
-                </tbody>
-            </table>
-        </div>
+      <!-- Header -->
+      <div class="flex justify-between items-center py-3 px-4 border-b border-default-200">
+        <h3 class="text-lg font-semibold">Seleccionar Personal</h3>
+        <button type="button" class="text-default-600 cursor-pointer" data-hs-overlay="#modal-registro">
+          <i class="i-tabler-x text-lg"></i>
+        </button>
+      </div>
 
-        <!-- Footer -->
-        <div class="flex justify-end gap-3 p-4 border-t border-default-200 bg-gray-50 rounded-b-2xl">
-            <button type="button" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
-                data-hs-overlay="#modal-registro">Cancelar</button>
-            <button type="button" id="btn-confirmar-matricula" 
-                class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700">
-                Confirmar Matrícula
-            </button>
-        </div>
+      <!-- Buscador -->
+      <div class="p-4">
+        <input type="text" id="buscarPersonal" class="form-input w-full"
+          placeholder="Buscar personal..." />
+      </div>
+
+      <!-- Tabla -->
+      <div class="overflow-y-auto max-h-[300px]">
+        <table class="min-w-full text-sm text-left">
+          <thead class="bg-gray-50 sticky top-0">
+            <tr>
+              <th class="px-4 py-2">Nombre</th>
+              <th class="px-4 py-2">Matricular</th>
+            </tr>
+          </thead>
+          <tbody id="tablaPersonal"></tbody>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-end gap-2 p-4 border-t border-default-200">
+        <button class="btn bg-gray-200" data-hs-overlay="#modal-registro">Cancelar</button>
+        <button id="btnGuardarMatricula" class="btn bg-success text-white">Guardar</button>
+      </div>
+
     </div>
+  </div>
 </div>
+
 
 
 

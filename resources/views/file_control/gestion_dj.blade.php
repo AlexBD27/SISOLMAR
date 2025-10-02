@@ -169,19 +169,19 @@
                             <div>
                                 <label for="celular"
                                     class="text-sm font-bold inline-block mb-2 text-red-800">Celular</label>
-                                <input type="text" id="celular" maxlength="9" required class="form-input w-full"
+                                <input type="text" id="celular" maxlength="9" required class="w-full border-2 border-black rounded-md px-2 py-1"
                                     placeholder="999 999 999">
                             </div>
                             <div>
                                 <label for="correo" class="text-sm font-bold inline-block mb-2 text-red-800">Correo
                                     electrónico</label>
-                                <input type="email" id="correo" required class="form-input w-full"
+                                <input type="email" id="correo" required class="w-full border-2 border-black rounded-md px-2 py-1"
                                     placeholder="ejemplo@correo.com">
                             </div>
                             <div>
                                 <label for="whatsapp"
                                     class="text-sm font-bold inline-block mb-2 text-red-800">WhatsApp</label>
-                                <input type="text" id="whatsapp" maxlength="9" class="form-input w-full"
+                                <input type="text" id="whatsapp" maxlength="9" class="w-full border-2 border-black rounded-md px-2 py-1"
                                     placeholder="999 999 999">
                             </div>
                         </div>
@@ -398,8 +398,12 @@
                         <!-- Licencia / Tipo arma / Arma propia -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fila-formulario">
                             <div>
-                                <label for="licencia_arma" class="text-sm font-medium inline-block mb-2">Licencia de Arma</label>
-                                <input id="licencia_arma" class="form-input w-full" placeholder="Ingrese licencias..." />
+                                <label for="licencia_arma" class="text-sm font-medium inline-block mb-2">
+                                    Licencia de Arma
+                                </label>
+                                <input id="licencia_arma" 
+                                    class="form-input w-full" 
+                                    placeholder="Ingrese licencias..." />
                             </div>
                             <div>
                                 <label for="tipo-arma" class="text-sm font-medium inline-block mb-2">Tipo de Arma</label>

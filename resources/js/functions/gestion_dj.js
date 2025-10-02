@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const inputLicencia = document.getElementById("licencia_arma");
             const tagify = new Tagify(inputLicencia, {
                 maxTags: 2
-                });
+            });
 
             let licencias = data.licencia_arma;
 

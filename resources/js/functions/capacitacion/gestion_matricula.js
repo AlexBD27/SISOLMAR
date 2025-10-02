@@ -24,16 +24,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
   document.querySelectorAll(".btn-matricula").forEach(btn => {
-  btn.addEventListener("click", async (e) => {
-    const cursoId = e.target.dataset.cursoId
+    btn.addEventListener("click", async (e) => {
+        const cursoId = e.target.dataset.cursoId
 
-    // cargar lista de personal antes de mostrar
-    await cargarPersonal(cursoId)
+        // cargar lista de personal antes de mostrar
+        await cargarPersonal(cursoId)
 
-    // abrir modal manualmente
-    HSOverlay.open('#modal-registro')
-  })
-})
+        // abrir modal manualmente
+        HSOverlay.open('#modal-registro')
+    })
+    })
+
 
 
 })
@@ -158,49 +159,50 @@ function renderTablaCursos(data) {
 }
 
 
-
 async function cargarPersonal(cursoId) {
-    try {
-        const response = await axios.get(`${ VITE_URL_APP }/api/get-personal`)
-        const data = response.data
+  // aquí deberías hacer un fetch al backend
+  // const res = await fetch(`/api/cursos/${cursoId}/personal`)
+  // const personal = await res.json()
 
-        const tbody = document.querySelector("#tablaPersonal tbody")
-        tbody.innerHTML = ""
+  // datos de ejemplo
+  const personal = [
+    { id: 1, nombre: "Juan Pérez", matriculado: true },
+    { id: 2, nombre: "Ana Torres", matriculado: false },
+    { id: 3, nombre: "Luis García", matriculado: false }
+  ]
 
-        data.forEach(persona => {
-            const tr = document.createElement("tr")
-            tr.innerHTML = `
-                <td class="px-4 py-2 text-center">
-                    <input type="checkbox" value="${persona.id}" class="chk-persona">
-                </td>
-                <td class="px-4 py-2">${persona.dni}</td>
-                <td class="px-4 py-2">${persona.nombres} ${persona.apellidos}</td>
-                <td class="px-4 py-2">${persona.email}</td>
-                <td class="px-4 py-2">${persona.cargo ?? "-"}</td>
-            `
-            tbody.appendChild(tr)
-        })
+  const tbody = document.querySelector("#tablaPersonal")
+  tbody.innerHTML = ""
 
-        // Abrir modal
-        HSOverlay.open('#modal-registro')
+  personal.forEach(p => {
+    const tr = document.createElement("tr")
+    tr.innerHTML = `
+      <td class="px-4 py-2">${p.nombre}</td>
+      <td class="px-4 py-2 text-center">
+        <input type="checkbox" value="${p.id}" ${p.matriculado ? "checked disabled" : ""}>
+      </td>
+    `
+    tbody.appendChild(tr)
+  })
 
-        // Guardar curso en botón confirmar
-        document.getElementById("btn-confirmar-matricula").dataset.cursoId = cursoId
+  // filtro buscador
+  const inputBuscar = document.getElementById("buscarPersonal")
+  inputBuscar.value = ""
+  inputBuscar.onkeyup = () => {
+    const filtro = inputBuscar.value.toLowerCase()
+    tbody.querySelectorAll("tr").forEach(row => {
+      const nombre = row.querySelector("td").textContent.toLowerCase()
+      row.style.display = nombre.includes(filtro) ? "" : "none"
+    })
+  }
 
-    } catch (error) {
-        console.error("Error cargando personal:", error)
-    }
+  // guardar matrícula
+  document.getElementById("btnGuardarMatricula").onclick = () => {
+    const seleccionados = [...tbody.querySelectorAll("input[type=checkbox]:checked:not([disabled])")]
+      .map(chk => chk.value)
+    console.log("Matricular en curso " + cursoId + " a:", seleccionados)
+
+    // aquí haces tu POST al backend
+    // fetch('/api/matricular', { method:'POST', body: JSON.stringify({ cursoId, seleccionados }) })
+  }
 }
-
-document.getElementById("btn-confirmar-matricula").addEventListener("click", () => {
-    const cursoId = document.getElementById("btn-confirmar-matricula").dataset.cursoId
-    const seleccionados = Array.from(document.querySelectorAll(".chk-persona:checked")).map(chk => chk.value)
-
-    if (seleccionados.length === 0) {
-        alert("Selecciona al menos una persona")
-        return
-    }
-
-    // Aquí podrías hacer la llamada para matricular o mandar correos
-    console.log("Matricular en curso:", cursoId, "Personas:", seleccionados)
-})
