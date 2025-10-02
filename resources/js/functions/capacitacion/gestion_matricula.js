@@ -190,6 +190,9 @@ function renderTablaCursos(data) {
         `
         tbody.appendChild(tr)
     })
+
+    inicializarBotonesMatricula();
+
   }else{
 
     const tr = document.createElement("tr")
@@ -201,6 +204,33 @@ function renderTablaCursos(data) {
     tbody.appendChild(tr)
     return
   }
+}
+
+
+function inicializarBotonesMatricula() {
+    document.querySelectorAll(".btn-matricula").forEach(btn => {
+        const nuevoBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(nuevoBtn, btn);
+    });
+    
+    document.querySelectorAll(".btn-matricula").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const cursoId = e.target.dataset.cursoId;
+            const cursoNombre = e.target.dataset.cursoNombre || "Curso seleccionado";
+            
+            console.log("🎯 Click en matricular - Curso ID:", cursoId);
+            
+            cursoActual = cursoId;
+            
+            const nombreCursoElement = document.getElementById("nombreCurso");
+            if (nombreCursoElement) {
+                nombreCursoElement.textContent = cursoNombre;
+            }
+            
+            await cargarPersonal(cursoId);
+            HSOverlay.open('#modal-registro');
+        });
+    });
 }
 
 
