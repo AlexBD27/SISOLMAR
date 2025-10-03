@@ -63,25 +63,28 @@ document.getElementById("btnGuardarMatricula").addEventListener("click", async f
     this.innerHTML = '<i class="i-tabler-loader animate-spin mr-2"></i> Procesando matrícula...';
     
     try {
-        // const response = await axios.post(`${VITE_URL_APP}/api/matricular`, {
-        //     cursoId: cursoActual,
-        //     personalIds: seleccionados
-        // });
-        
-        // if (response.status === 200 || response.status === 201) {
-        //     alert(`✓ ${seleccionados.length} persona(s) matriculada(s) exitosamente.`);
-        //     personasSeleccionadas.clear();
-        //     HSOverlay.close('#modal-registro');
-        // }
 
-        //Simulación
-        setTimeout(() => {
-            alert(`${seleccionados.length} persona(s) matriculada(s) exitosamente`);
+        const response = await axios.post(`${VITE_URL_APP}/api/save-matricula`, {
+            cursoId: cursoActual,
+            personalIds: seleccionados
+        });
+        
+        if (response.status === 200 || response.status === 201) {
+            alert(`✓ ${seleccionados.length} persona(s) matriculada(s) exitosamente.`);
             personasSeleccionadas.clear();
             HSOverlay.close('#modal-registro');
-            this.disabled = false;
-            this.innerHTML = '<i class="i-tabler-check mr-2"></i> Matricular Seleccionados';
-        }, 1000);
+        }
+
+
+
+        //Simulación
+        // setTimeout(() => {
+        //     alert(`${seleccionados.length} persona(s) matriculada(s) exitosamente`);
+        //     personasSeleccionadas.clear();
+        //     HSOverlay.close('#modal-registro');
+        //     this.disabled = false;
+        //     this.innerHTML = '<i class="i-tabler-check mr-2"></i> Matricular Seleccionados';
+        // }, 1000);
         
     } catch (error) {
         console.error("Error al matricular:", error);

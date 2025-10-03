@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MatriculaNotificacion;
 use App\Models\Areas;
 use App\Models\CapacitacionAreas;
 use App\Models\CapacitacionTipoCurso;
 use App\Models\CursoProgramacion;
+use App\Models\FileControl;
 use App\Models\TipoCurso;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Mail;
+use Psy\Readline\Hoa\Console;
 
 class CapacitacionController extends Controller
 {
@@ -812,6 +816,129 @@ class CapacitacionController extends Controller
             if (File::isDirectory($tempPath)) {
                 File::deleteDirectory($tempPath);
             }
+        }
+    }
+
+    public function saveMatricula(Request $request)
+    {
+
+        // $personalPrueba = (object)[
+        //     'personal' => 'Juan Pérez García',
+        //     'email' => 'juan.perez@ejemplo.com',
+        //     'nroDoc' => '12345678'
+        // ];
+        
+        // $cursoPrueba = (object)[
+        //     'nombre' => 'Curso de Seguridad Industrial y Salud Ocupacional',
+        //     'codigoCurso' => 'SI-2024-001'
+        // ];
+        
+        // return new MatriculaNotificacion($personalPrueba, curso: $cursoPrueba);
+
+        try {
+            $validator = Validator::make($request->all(), [
+                'cursoId'      => 'required|integer',
+                'personalIds'  => 'required|array',
+                'personalIds.*' => 'required|string'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Errores de validación.',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            DB::beginTransaction();
+
+            $cursoId = $request->cursoId;
+            $personalIds = $request->personalIds;
+            
+            $curso = Cursos::find($cursoId);
+            
+            if (!$curso) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Curso no encontrado.'
+                ], 404);
+            }
+
+            $matriculados = [];
+            $errores = [];
+            $correosEnviados = 0;
+
+            foreach ($personalIds as $personalId) {
+                try {
+                    // // Verificar si ya está matriculado
+                    // $existe = Matricula::where('curso_id', $cursoId)
+                    //     ->where('personal_id', $personalId)
+                    //     ->exists();
+
+                    // if ($existe) {
+                    //     $errores[] = [
+                    //         'personalId' => $personalId,
+                    //         'mensaje' => 'Ya está matriculado en este curso'
+                    //     ];
+                    //     continue;
+                    // }
+
+                    // // Insertar matrícula
+                    // $matricula = Matricula::create([
+                    //     'curso_id' => $cursoId,
+                    //     'personal_id' => $personalId,
+                    //     'fecha_matricula' => now(),
+                    //     'estado' => 1 // Activo
+                    // ]);
+
+                    // Obtener datos del personal
+                    $personal = FileControl::getPersonalXId($personalId);
+
+                    if ($personal && $personal->PERS_EMAIL) {
+
+                        $email = "webmaster@gruposolmar.com.pe";
+                        //$email = "gilmertiradoam.27@gmail.com";
+                        Mail::to($email)->send(new MatriculaNotificacion($personal, $curso));
+
+                        //Mail::to($personal->PERS_EMAIL)->send(new MatriculaNotificacion($personal, $curso));
+                        $correosEnviados++;
+                    }
+
+                    $matriculados[] = [
+                        'personalId' => $personalId,
+                        'nombre' => $personal->NOMB_1 . ' ' . $personal->APEL_1 . ' ' . $personal->APEL_2
+                    ];
+
+                } catch (\Exception $e) {
+                    $errores[] = [
+                        'personalId' => $personalId,
+                        'mensaje' => $e->getMessage()
+                    ];
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => count($matriculados) . ' persona(s) matriculada(s) exitosamente.',
+                'data' => [
+                    'matriculados' => count($matriculados),
+                    'correosEnviados' => $correosEnviados,
+                    'errores' => count($errores),
+                    'detalleMatriculados' => $matriculados,
+                    'detalleErrores' => $errores
+                ]
+            ], 200);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error interno.',
+                'error' => $e->getMessage(),
+                'line' => $e->getLine()
+            ], 500);
         }
     }
 

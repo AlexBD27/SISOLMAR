@@ -389,4 +389,10 @@ class FileControl extends Model
     public static function getReporteFiltro($codigo){
         return DB::select('EXEC SW_SISOLMAR_REPORTES ?', [$codigo]);
     }
+
+    public static function getPersonalXId($codigo) {
+        return DB::table('sw_MIGRA_PERSONAL')
+            ->where('CODI_PERS', $codigo)
+            ->first();
+    }
 }

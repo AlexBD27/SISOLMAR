@@ -102,6 +102,7 @@ Route::get('/ubicacion/distritos/{provincia_id}', [UbicacionController::class, '
 
 
 Route::get('/get-postulantes', [FileController::class, 'getPostulantes']);
+Route::post('/save-matricula', [CapacitacionController::class, 'saveMatricula']);
 
 
 
