@@ -100,30 +100,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("buscarPersonal").addEventListener("keyup", function () {
         let valor = this.value.toLowerCase().trim();
+        
         tblPersonas.setFilter([
             [
-                { field: "CODI_PERS", type: 'like',  value: valor },
-                { field: "personal", type: 'like',  value: valor },
-                { field: "nroDoc", type: 'like', value: valor },
-                { field: "sucursal", type: 'like', value: valor },
-                { field: "col", type: 'like', value: valor },
+                { field: "nombres", type: "like", value: valor },
+                { field: "dni", type: "like", value: valor },
             ]
         ]);
 
-        // Guardar el valor para usarlo tras cambios de página
         tblPersonas._ultimoFiltro = valor;
 
         setTimeout(() => resaltarTexto(valor), 10);
-
     });
+
+    document.getElementById('btnNuevaDJ').addEventListener('click', function() {
+        abrirFormulario();
+    });
+
+
+    document.getElementById('btnPrevisualizar').addEventListener('click', function () {
+        const form = document.getElementById('formDatos');
+        const formData = new FormData(form);
+
+        console.log("Generando vista previa...");
+
+        fetch('<?= base_url("DeclaracionJurada/previsualizar") ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Error al generar la previsualización');
+            return response.blob();
+        })
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        })
+        .catch(error => {
+            console.error(error);
+            alert("No se pudo generar la previsualización");
+        });
+    });
+
 
 
     document.addEventListener('click', function (event) {
         const modal = document.getElementById('formModal');
         const contenedor = modal.querySelector('.bg-white');
+
+        if (event.target.closest('#btnNuevaDJ')) return;
         
         if (!modal.classList.contains('hidden')) { 
-            // Si el modal está abierto
             if (!contenedor.contains(event.target) && !event.target.classList.contains('form-btn')) {
                 cerrarFormulario();
             }
@@ -231,7 +258,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (row) row.remove();
     });
 
-    window.abrirFormulario = function (data) {
+    window.abrirFormulario = function (data = null) {
+
+        limpiarFormulario();
 
         if(data){
             document.getElementById("cod_postulante").value = data.id;
@@ -240,9 +269,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("fecha_nacimiento").value = data.fecha_nacimiento ?? '';
 
             //Seleccionar departamento
-            const departamentoSelect = document.getElementById("departamento");
-            const provinciaSelect = document.getElementById("provincia");
-            const distritoSelect = document.getElementById("distrito");
+            const departamentoSelect = document.getElementById("departamento-actual");
+            const provinciaSelect = document.getElementById("provincia-actual");
+            const distritoSelect = document.getElementById("distrito-actual");
 
             if (data.departamento) {
                 departamentoSelect.value = data.departamento;
@@ -298,13 +327,46 @@ document.addEventListener('DOMContentLoaded', function () {
         preview.classList.add("hidden");
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', makeFamilyRow());
-
         document.getElementById('formModal').classList.remove('hidden');
     };
 
     window.cerrarFormulario = function () {
         document.getElementById('formModal').classList.add('hidden');
     };
+
+
+    function limpiarFormulario() {
+
+        console.log("LIMPIAR FORMULARIO");
+
+        const form = document.getElementById('formDatos');
+        form.reset();
+
+        // const inputFoto = document.getElementById("inputFoto");
+        // const previewFoto = document.getElementById("previewFoto");
+
+        // const departamentoSelect = document.getElementById("departamento-actual");
+        // const provinciaSelect = document.getElementById("provincia-actual");
+        // const distritoSelect = document.getElementById("distrito-actual");
+
+        // const departamentoSelectDni = document.getElementById("departamento-dni");
+        // const provinciaSelectDni = document.getElementById("provincia-dni");
+        // const distritoSelectDni = document.getElementById("distrito-dni");
+
+        // departamentoSelect.innerHTML = '<option value="">Seleccionar</option>';
+        // provinciaSelect.innerHTML = '<option value="">Seleccionar</option>';
+        // distritoSelect.innerHTML = '<option value="">Seleccionar</option>';
+
+        // departamentoSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+        // provinciaSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+        // distritoSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+
+        
+        // previewFoto.src = '';
+        // previewFoto.classList.add("hidden");
+
+
+    }
 
 
     const inputFoto = document.getElementById("inputFoto");
@@ -357,9 +419,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    const departamentoSelect = document.getElementById("departamento");
-    const provinciaSelect = document.getElementById("provincia");
-    const distritoSelect = document.getElementById("distrito");
+    const departamentoSelect = document.getElementById("departamento-actual");
+    const provinciaSelect = document.getElementById("provincia-actual");
+    const distritoSelect = document.getElementById("distrito-actual");
+
+    const departamentoSelectDni = document.getElementById("departamento-dni");
+    const provinciaSelectDni = document.getElementById("provincia-dni");
+    const distritoSelectDni = document.getElementById("distrito-dni");
 
     const API_BASE = `${VITE_URL_APP}/api/ubicacion`;
 
@@ -367,17 +433,18 @@ document.addEventListener('DOMContentLoaded', function () {
     axios.get(`${API_BASE}/departamentos`)
         .then(response => {
             response.data.forEach(dep => {
-                let option = new Option(dep.depa_descripcion, dep.depa_codigo);
-                departamentoSelect.add(option);
+                let option1 = new Option(dep.depa_descripcion, dep.depa_codigo);
+                let option2 = new Option(dep.depa_descripcion, dep.depa_codigo);
+                departamentoSelect.add(option1);
+                departamentoSelectDni.add(option2);
             });
         })
         .catch(error => {
             console.error("Error cargando departamentos:", error);
         });
 
-    // Cuando cambie el departamento
     departamentoSelect.addEventListener("change", function () {
-        let departamentoId = this.value;
+        const departamentoId = this.value;
         provinciaSelect.innerHTML = '<option value="">Seleccionar</option>';
         distritoSelect.innerHTML = '<option value="">Seleccionar</option>';
 
@@ -396,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     provinciaSelect.addEventListener("change", function () {
-        let provinciaId = this.value;
+        const provinciaId = this.value;
         distritoSelect.innerHTML = '<option value="">Seleccionar</option>';
 
         if (provinciaId) {
@@ -405,6 +472,43 @@ document.addEventListener('DOMContentLoaded', function () {
                     response.data.forEach(dist => {
                         let option = new Option(dist.dist_descripcion, dist.dist_codigo);
                         distritoSelect.add(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error cargando distritos:", error);
+                });
+        }
+    });
+
+    departamentoSelectDni.addEventListener("change", function () {
+        const departamentoId = this.value;
+        provinciaSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+        distritoSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+
+        if (departamentoId) {
+            axios.get(`${API_BASE}/provincias/${departamentoId}`)
+                .then(response => {
+                    response.data.forEach(prov => {
+                        let option = new Option(prov.provi_descripcion, prov.provi_codigo);
+                        provinciaSelectDni.add(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error cargando provincias:", error);
+                });
+        }
+    });
+
+    provinciaSelectDni.addEventListener("change", function () {
+        const provinciaId = this.value;
+        distritoSelectDni.innerHTML = '<option value="">Seleccionar</option>';
+
+        if (provinciaId) {
+            axios.get(`${API_BASE}/distritos/${provinciaId}`)
+                .then(response => {
+                    response.data.forEach(dist => {
+                        let option = new Option(dist.dist_descripcion, dist.dist_codigo);
+                        distritoSelectDni.add(option);
                     });
                 })
                 .catch(error => {
