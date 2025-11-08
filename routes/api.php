@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DjController;
 use App\Http\Controllers\UbicacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -103,6 +104,9 @@ Route::get('/ubicacion/distritos/{provincia_id}', [UbicacionController::class, '
 
 Route::get('/get-postulantes', [FileController::class, 'getPostulantes']);
 Route::post('/save-matricula', [CapacitacionController::class, 'saveMatricula']);
+
+
+Route::post('/save-declaracion-jurada', [DjController::class, 'saveDeclaracionJurada']);
 
 
 

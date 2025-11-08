@@ -66,7 +66,8 @@
     <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto flex py-10">
         <!-- Contenedor -->
         <div class="bg-white rounded-lg shadow-lg max-w-2xl w-auto mx-auto my-10 max-h-[70vh] overflow-y-auto">
-            <form id="formDatos" class="p-6 space-y-8">
+            <form id="formDatos" method="POST" class="p-6 space-y-8">
+                @csrf
 
                 <input type="hidden" name="cod_postulante" id="cod_postulante">
 
@@ -160,26 +161,26 @@
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
                                 <div>
                                     <label for="dni" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
-                                    <input type="text" id="dni" maxlength="8" required
+                                    <input type="text" id="dni" name="dni" maxlength="8" required
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                         placeholder="12345678">
                                 </div>
                                 <div>
                                     <label for="caduca" class="block text-sm font-medium text-gray-700 mb-1">Caduca</label>
-                                    <input type="date" id="caduca"
+                                    <input type="date" id="caduca" name="caduca"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
-                                    <label for="estado-civil" class="block text-sm font-medium text-gray-700 mb-1">Estado Civil</label>
-                                    <select id="estado-civil"
+                                    <label for="estado_civil" class="block text-sm font-medium text-gray-700 mb-1">Estado Civil</label>
+                                    <select id="estado_civil" name="estado_civil"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Soltero(a)</option>
-                                        <option>Casado(a)</option>
-                                        <option>Divorciado(a)</option>
-                                        <option>Viudo(a)</option>
-                                        <option>Conviviente</option>
+                                        <option value="SOLTERO">Soltero(a)</option>
+                                        <option value="CASADO">Casado(a)</option>
+                                        <option value="DIVORCIADO">Divorciado(a)</option>
+                                        <option value="VIUDO">Viudo(a)</option>
+                                        <option value="CONVIVIENTE">Conviviente</option>
                                     </select>
                                 </div>
                             </div>
@@ -187,26 +188,26 @@
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
                                     <label for="sexo" class="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
-                                    <select id="sexo"
+                                    <select id="sexo" name="sexo"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Masculino</option>
-                                        <option>Femenino</option>
+                                        <option value="MASCULINO">Masculino</option>
+                                        <option value="FEMENINO">Femenino</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label for="fecha_nacimiento" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
-                                    <input type="date" id="fecha_nacimiento" required
+                                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
-                                    <label for="sabe-nadar" class="block text-sm font-medium text-gray-700 mb-1">¿Sabe nadar?</label>
-                                    <select id="sabe-nadar"
+                                    <label for="sabe_nadar" class="block text-sm font-medium text-gray-700 mb-1">¿Sabe nadar?</label>
+                                    <select id="sabe_nadar" name="sabe_nadar"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Sí</option>
-                                        <option>No</option>
+                                        <option value="SI">Sí</option>
+                                        <option value="NO">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -228,19 +229,19 @@
                             <div class="grid gap-4 md:grid-cols-3">
                                 <div>
                                     <label for="celular" class="block text-sm font-medium text-gray-700 mb-1">Celular</label>
-                                    <input type="text" id="celular" maxlength="9" required placeholder="999 999 999"
+                                    <input type="text" id="celular" name="celular" maxlength="9" required placeholder="999 999 999"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
                                     <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
-                                    <input type="email" id="correo" placeholder="ejemplo@correo.com" required
+                                    <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" required
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
                                     <label for="whatsapp" class="block text-sm font-medium text-gray-700 mb-1">WhatsApp</label>
-                                    <input type="text" id="whatsapp" maxlength="9" placeholder="999 999 999"
+                                    <input type="text" id="whatsapp" name="whatsapp" maxlength="9" placeholder="999 999 999"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
                             </div>
@@ -259,30 +260,30 @@
 
                             <div class="grid gap-4 md:grid-cols-3">
                                 <div>
-                                    <label for="tipo-sangre" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Sangre</label>
-                                    <select id="tipo-sangre"
+                                    <label for="tipo_sangre" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Sangre</label>
+                                    <select id="tipo_sangre" name="tipo_sangre"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>O+</option>
-                                        <option>O-</option>
-                                        <option>A+</option>
-                                        <option>A-</option>
-                                        <option>B+</option>
-                                        <option>B-</option>
-                                        <option>AB+</option>
-                                        <option>AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <label for="peso" class="block text-sm font-medium text-gray-700 mb-1">Peso (Kg)</label>
-                                    <input type="number" id="peso" step="0.1" placeholder="70"
+                                    <input type="number" id="peso" name="peso" step="0.1" placeholder="70"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
                                     <label for="talla" class="block text-sm font-medium text-gray-700 mb-1">Talla (m)</label>
-                                    <input type="number" id="talla" step="0.01" placeholder="1.75"
+                                    <input type="number" id="talla" name="talla" step="0.01" placeholder="1.75"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
                             </div>
@@ -301,16 +302,16 @@
 
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
-                                    <label for="sistema-previsional" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="sistema_previsional" class="block text-sm font-medium text-gray-700 mb-1">
                                         Sistema Previsional
                                     </label>
-                                    <select id="sistema-previsional"
+                                    <select id="sistema_previsional" name="sistema_previsional"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>ONP</option>
-                                        <option>AFP</option>
-                                        <option>AFP - Mixta</option>
-                                        <option>AFP - Flujo</option>
+                                        <option value="ONP">ONP</option>
+                                        <option value="AFP">AFP</option>
+                                        <option value="APF-MIXTA">AFP - Mixta</option>
+                                        <option value="AFP-FLUJO">AFP - Flujo</option>
                                     </select>
                                 </div>
 
@@ -318,11 +319,11 @@
                                     <label for="essalud" class="block text-sm font-medium text-gray-700 mb-1">
                                         ESSALUD Vida
                                     </label>
-                                    <select id="essalud"
+                                    <select id="essalud" name="essalud"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Sí</option>
-                                        <option>No</option>
+                                        <option value="SI">Sí</option>
+                                        <option value="NO">No</option>
                                     </select>
                                 </div>
 
@@ -330,11 +331,11 @@
                                     <label for="pensionista" class="block text-sm font-medium text-gray-700 mb-1">
                                         Pensionista
                                     </label>
-                                    <select id="pensionista"
+                                    <select id="pensionista" name="pensionista"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Sí</option>
-                                        <option>No</option>
+                                        <option value="SI">Sí</option>
+                                        <option value="NO">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -356,7 +357,7 @@
                                     <label for="grado_instruccion" class="block text-sm font-medium text-gray-700 mb-1">
                                         Grado de Instrucción
                                     </label>
-                                    <input type="text" id="grado_instruccion" placeholder="Grado de instrucción"
+                                    <input type="text" id="grado_instruccion" name="grado_instruccion" placeholder="Grado de instrucción"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
@@ -364,7 +365,7 @@
                                     <label for="institucion" class="block text-sm font-medium text-gray-700 mb-1">
                                         Institución
                                     </label>
-                                    <input type="text" id="institucion" placeholder="Nombre de la institución"
+                                    <input type="text" id="institucion" name="institucion" placeholder="Nombre de la institución"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
@@ -372,15 +373,15 @@
                                     <label for="carrera" class="block text-sm font-medium text-gray-700 mb-1">
                                         Carrera
                                     </label>
-                                    <input type="text" id="carrera" placeholder="Carrera profesional"
+                                    <input type="text" id="carrera" name="carrera" placeholder="Carrera profesional"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
 
                                 <div>
-                                    <label for="ano-egreso" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="anio_egreso" class="block text-sm font-medium text-gray-700 mb-1">
                                         Año de egreso
                                     </label>
-                                    <input type="number" id="ano-egreso" min="1950" max="2030" placeholder="2020"
+                                    <input type="number" id="anio_egreso" name="anio_egreso" min="1950" max="2030" placeholder="2020"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 </div>
                             </div>
@@ -402,23 +403,23 @@
                                     <label for="embargos" class="block text-sm font-medium text-gray-700 mb-1">
                                         Embargos en instituciones financieras
                                     </label>
-                                    <select id="embargos"
+                                    <select id="embargos" name="embargos"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Sí</option>
-                                        <option>No</option>
+                                        <option value="SI">Sí</option>
+                                        <option value="NO">No</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label for="sustancias" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="consumo_sustancias" class="block text-sm font-medium text-gray-700 mb-1">
                                         Consumo de sustancias ilícitas
                                     </label>
-                                    <select id="sustancias"
+                                    <select id="consumo_sustancias" name="consumo_sustancias"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
-                                        <option>Sí</option>
-                                        <option>No</option>
+                                        <option value="SI">Sí</option>
+                                        <option value="NO">No</option>
                                     </select>
                                 </div>
                             </div>
@@ -437,30 +438,30 @@
 
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
-                                    <label for="departamento-actual" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="departamento_actual" class="block text-sm font-medium text-gray-700 mb-1">
                                         Departamento
                                     </label>
-                                    <select id="departamento-actual"
+                                    <select id="departamento_actual" name="departamento_actual"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label for="provincia-actual" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="provincia_actual" class="block text-sm font-medium text-gray-700 mb-1">
                                         Provincia
                                     </label>
-                                    <select id="provincia-actual"
+                                    <select id="provincia_actual" name="provincia_actual"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label for="distrito-actual" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="distrito_actual" class="block text-sm font-medium text-gray-700 mb-1">
                                         Distrito
                                     </label>
-                                    <select id="distrito-actual"
+                                    <select id="distrito_actual" name="distrito_actual"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
@@ -469,10 +470,10 @@
 
                             <div class="space-y-4 mt-6">
                                 <div>
-                                    <label for="direccion-actual" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="direccion_actual" class="block text-sm font-medium text-gray-700 mb-1">
                                         Descripción
                                     </label>
-                                    <textarea id="direccion-actual" rows="2" required placeholder="Ingrese su dirección actual completa"
+                                    <textarea id="direccion_actual" name="direccion_actual" rows="2" required placeholder="Ingrese su dirección actual completa"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"></textarea>
                                 </div>
                             </div>
@@ -491,30 +492,30 @@
 
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
-                                    <label for="departamento-dni" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="departamento_dni" class="block text-sm font-medium text-gray-700 mb-1">
                                         Departamento
                                     </label>
-                                    <select id="departamento-dni"
+                                    <select id="departamento_dni" name="departamento_dni"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label for="provincia-dni" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="provincia_dni" class="block text-sm font-medium text-gray-700 mb-1">
                                         Provincia
                                     </label>
-                                    <select id="provincia-dni"
+                                    <select id="provincia_dni" name="provincia_dni"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
                                 </div>
 
                                 <div>
-                                    <label for="distrito-dni" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="distrito_dni" class="block text-sm font-medium text-gray-700 mb-1">
                                         Distrito
                                     </label>
-                                    <select id="distrito-dni"
+                                    <select id="distrito_dni" name="distrito_dni"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                         <option value="">Seleccionar</option>
                                     </select>
@@ -523,10 +524,10 @@
 
                             <div class="space-y-4 mt-6">
                                 <div>
-                                    <label for="direccion-dni" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="direccion_dni" class="block text-sm font-medium text-gray-700 mb-1">
                                         Descripción
                                     </label>
-                                    <textarea id="direccion-dni" rows="2" placeholder="Dirección registrada en el DNI"
+                                    <textarea id="direccion_dni" name="direccion_dni" rows="2" placeholder="Dirección registrada en el DNI"
                                         class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"></textarea>
                                 </div>
                             </div>
@@ -544,13 +545,13 @@
 
                             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
-                                <label for="emergencia-llamar" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="contacto_emergencia" class="block text-sm font-medium text-gray-700 mb-1">
                                     En caso de emergencia llamar a
                                 </label>
                                 <input
                                     type="text"
-                                    id="emergencia-llamar"
-                                    name="emergencia_llamar"
+                                    id="contacto_emergencia"
+                                    name="contacto_emergencia"
                                     required
                                     placeholder="Ej: Juan Pérez García"
                                     class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-200"
@@ -558,12 +559,12 @@
                                 </div>
 
                                 <div>
-                                <label for="celular-emergencia" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="celular_emergencia" class="block text-sm font-medium text-gray-700 mb-1">
                                     Número de celular
                                 </label>
                                 <input
                                     type="text"
-                                    id="celular-emergencia"
+                                    id="celular_emergencia"
                                     name="celular_emergencia"
                                     maxlength="9"
                                     required
@@ -575,13 +576,13 @@
                                 </div>
 
                                 <div>
-                                <label for="parentesco" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="parentesco_emergencia" class="block text-sm font-medium text-gray-700 mb-1">
                                     Parentesco
                                 </label>
                                 <input
                                     type="text"
-                                    id="parentesco"
-                                    name="parentesco"
+                                    id="parentesco_emergencia"
+                                    name="parentesco_emergencia"
                                     required
                                     placeholder="Ej: Madre, Hermano, Esposo(a)"
                                     class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-200"
@@ -614,24 +615,24 @@
                         <div class="grid gap-4 md:grid-cols-3">
                             <div>
                             <label for="curso_sucamec" class="block text-sm font-medium text-gray-700 mb-1">Curso SUCAMEC</label>
-                            <select id="curso_sucamec"
+                            <select id="curso_sucamec" name="curso_sucamec"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
-                                <option value="1">Sí</option>
-                                <option value="0">No</option>
+                                <option value="SI">Sí</option>
+                                <option value="NO">No</option>
                             </select>
                             </div>
 
                             <div id="institucion_container" class="hidden">
                             <label for="institucion_laboral" class="block text-sm font-medium text-gray-700 mb-1">Institución</label>
-                            <input type="text" id="institucion_laboral"
+                            <input type="text" id="institucion_laboral" name="institucion_laboral"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Institución donde realizó el curso">
                             </div>
 
                             <div>
                             <label for="smo" class="block text-sm font-medium text-gray-700 mb-1">S.M.O.</label>
-                            <select id="smo"
+                            <select id="smo" name="smo"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
                                 <option value="NO">No</option>
@@ -657,29 +658,29 @@
                         <div class="grid gap-4 md:grid-cols-3">
                             <div>
                             <label for="licencia_arma" class="block text-sm font-medium text-gray-700 mb-1">Licencia de Arma</label>
-                            <input id="licencia_arma" placeholder="Ingrese licencias..."
+                            <input id="licencia_arma" name="licencia_arma" placeholder="Ingrese licencias..."
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                             </div>
 
                             <div>
-                            <label for="tipo-arma" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Arma</label>
-                            <select id="tipo-arma"
+                            <label for="tipo_arma" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Arma</label>
+                            <select id="tipo_arma" name="tipo_arma"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
-                                <option value="pistola">Pistola</option>
-                                <option value="revolver">Revólver</option>
-                                <option value="escopeta">Escopeta</option>
-                                <option value="rifle">Rifle</option>
+                                <option value="PISTOLA">Pistola</option>
+                                <option value="REVOLVER">Revólver</option>
+                                <option value="ESCOPETA">Escopeta</option>
+                                <option value="RIFLE">Rifle</option>
                             </select>
                             </div>
 
                             <div>
-                            <label for="arma-propia" class="block text-sm font-medium text-gray-700 mb-1">Arma Propia</label>
-                            <select id="arma-propia"
+                            <label for="arma_propia" class="block text-sm font-medium text-gray-700 mb-1">Arma Propia</label>
+                            <select id="arma_propia" name="arma_propia"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
-                                <option value="si">Sí</option>
-                                <option value="no">No</option>
+                                <option value="SI">Sí</option>
+                                <option value="NO">No</option>
                             </select>
                             </div>
                         </div>
@@ -699,14 +700,14 @@
                         <div class="grid gap-4 md:grid-cols-2">
                             <div>
                             <label for="brevete" class="block text-sm font-medium text-gray-700 mb-1">N° Brevete</label>
-                            <input type="text" id="brevete"
+                            <input type="text" id="brevete" name="brevete"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Número de brevete">
                             </div>
 
                             <div>
-                            <label for="clase-brevete" class="block text-sm font-medium text-gray-700 mb-1">Clase</label>
-                            <select id="clase-brevete"
+                            <label for="clase_brevete" class="block text-sm font-medium text-gray-700 mb-1">Clase</label>
+                            <select id="clase_brevete" name="clase_brevete"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
                                 <option value="A-I">A-I</option>
@@ -721,19 +722,19 @@
                             </div>
 
                             <div>
-                            <label for="tipo-vehiculo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Vehículo</label>
-                            <input type="text" id="tipo-vehiculo"
+                            <label for="tipo_vehiculo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Vehículo</label>
+                            <input type="text" id="tipo_vehiculo" name="tipo_vehiculo"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Tipo de vehículo">
                             </div>
 
                             <div>
-                            <label for="vehiculo-propio" class="block text-sm font-medium text-gray-700 mb-1">Vehículo Propio</label>
-                            <select id="vehiculo-propio"
+                            <label for="vehiculo_propio" class="block text-sm font-medium text-gray-700 mb-1">Vehículo Propio</label>
+                            <select id="vehiculo_propio" name="vehiculo_propio"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                 <option value="">Seleccionar</option>
-                                <option value="si">Sí</option>
-                                <option value="no">No</option>
+                                <option value="SI">Sí</option>
+                                <option value="NO">No</option>
                             </select>
                             </div>
                         </div>
@@ -752,22 +753,22 @@
 
                         <div class="grid gap-4 md:grid-cols-3">
                             <div>
-                            <label for="empresa-anterior" class="block text-sm font-medium text-gray-700 mb-1">Empresa Anterior</label>
-                            <input type="text" id="empresa-anterior"
+                            <label for="empresa_anterior" class="block text-sm font-medium text-gray-700 mb-1">Empresa Anterior</label>
+                            <input type="text" id="empresa_anterior" name="empresa_anterior"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Nombre de la empresa">
                             </div>
 
                             <div>
-                            <label for="cargo-anterior" class="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
-                            <input type="text" id="cargo-anterior"
+                            <label for="cargo_anterior" class="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
+                            <input type="text" id="cargo_anterior" name="cargo_anterior"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Cargo desempeñado">
                             </div>
 
                             <div>
-                            <label for="duracion" class="block text-sm font-medium text-gray-700 mb-1">Duración</label>
-                            <input type="text" id="duracion"
+                            <label for="duracion_anterior" class="block text-sm font-medium text-gray-700 mb-1">Duración</label>
+                            <input type="text" id="duracion_anterior" name="duracion_anterior"
                                 class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                                 placeholder="Ej: 2 años, 6 meses">
                             </div>
@@ -786,10 +787,10 @@
                         </div>
 
                         <div>
-                            <label for="profesion-alterna" class="block text-sm font-medium text-gray-700 mb-1">
+                            <label for="profesion_alterna" class="block text-sm font-medium text-gray-700 mb-1">
                             Profesión u Ocupación Alterna
                             </label>
-                            <input type="text" id="profesion-alterna"
+                            <input type="text" id="profesion_alterna" name="profesion_alterna"
                             class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
                             placeholder="Otra profesión u ocupación">
                         </div>
@@ -816,22 +817,22 @@
 
                             <div id="familyContainer" class="space-y-4">
                                 <!-- Familiar (item) -->
-                                <div class="family-row grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border border-gray-200 rounded-lg relative bg-gray-50">
+                                <div class="family-row grid grid-cols-1 md:grid-cols-3 gap-4 p-4 border border-gray-200 rounded-lg relative bg-gray-50" data-familia-row>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Parentesco</label>
                                         <select name="parentesco[]"
                                             class="w-full border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
                                             <option value="">Seleccionar</option>
-                                            <option value="padre">Padre</option>
-                                            <option value="madre">Madre</option>
-                                            <option value="esposo">Esposo</option>
-                                            <option value="esposa">Esposa</option>
-                                            <option value="hijo">Hijo</option>
-                                            <option value="hija">Hija</option>
-                                            <option value="hermano">Hermano</option>
-                                            <option value="hermana">Hermana</option>
-                                            <option value="abuelo">Abuelo</option>
-                                            <option value="abuela">Abuela</option>
+                                            <option value="PADRE">Padre</option>
+                                            <option value="MADRE">Madre</option>
+                                            <option value="ESPOSO">Esposo</option>
+                                            <option value="ESPOSA">Esposa</option>
+                                            <option value="HIJO">Hijo</option>
+                                            <option value="HIJA">Hija</option>
+                                            <option value="HERMANO">Hermano</option>
+                                            <option value="HERMANA">Hermana</option>
+                                            <option value="ABUELO">Abuelo</option>
+                                            <option value="ABUELA">Abuela</option>
                                         </select>
                                     </div>
                                     <div>
@@ -875,7 +876,7 @@
                     class="px-4 py-2 rounded-md bg-secondary text-white hover:bg-secondary-dark">
                     Previsualizar
                 </button>
-                <button type="submit" form="formDatos"
+                <button id="btnGuardar" type="submit" form="formDatos"
                     class="px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-dark">
                     Guardar
                 </button>
@@ -894,7 +895,15 @@
 @endsection
 
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.1/dist/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- <script>
+        window.logoUrl = "{{ asset('images/logo_sol.png') }}";
+    </script> -->
+
 @endsection
 
 @vite(['resources/js/functions/gestion_dj.js'])
